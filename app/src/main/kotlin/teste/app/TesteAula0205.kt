@@ -21,15 +21,38 @@ For example: [6, 9, 15, -2, 92, 11]
 
 //}
 
+fun achaMenorValor(listaInteiros: ArrayList<Int>): Int {
+    var minValor: Int = listaInteiros[0]
+    for (valor in listaInteiros){
+        if (valor < minValor) {
+            minValor = valor
+        }
+    }
+    return minValor
+}
+
+fun achaMaiorValor(listaInteiros: ArrayList<Int>): Int{
+    var maxValor: Int = listaInteiros[0]
+    for (valor in listaInteiros){
+        if (valor > maxValor) {
+            maxValor = valor
+        }
+    }
+    return maxValor
+}
+
 fun main(){
 
     val numeros = arrayListOf(6,9,15,-2,92,11)
 
-    var tamanho = numeros.count()
-
+    val tamanho = numeros.count()
+    val min = achaMenorValor(numeros)
+    val max = achaMaiorValor(numeros)
 
     println("numeros ${numeros}")
 
     println("O tamanho da lista é de $tamanho elementos")
+    println("O menor valor da lista é: $min.")
+    println("O maior valor da lista é: $max.")
 
 }
