@@ -20,6 +20,14 @@ For example: [6, 9, 15, -2, 92, 11]
 
 
 //}
+fun mediaValores(listaInteiros: ArrayList<Int>): Double {
+    var soma: Double = 0.0
+    for (valor in listaInteiros) {
+        soma += valor
+    }
+    val media: Double = soma / listaInteiros.count()
+    return media
+}
 
 fun achaMenorValor(listaInteiros: ArrayList<Int>): Int {
     var minValor: Int = listaInteiros[0]
@@ -48,11 +56,13 @@ fun main(){
     val tamanho = numeros.count()
     val min = achaMenorValor(numeros)
     val max = achaMaiorValor(numeros)
+    val media = mediaValores(numeros)
 
     println("numeros ${numeros}")
 
     println("O tamanho da lista é de $tamanho elementos")
     println("O menor valor da lista é: $min.")
     println("O maior valor da lista é: $max.")
+    println("A media dos valores da lista é: $media.")
 
 }
