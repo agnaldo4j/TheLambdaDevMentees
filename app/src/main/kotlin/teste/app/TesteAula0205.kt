@@ -20,17 +20,28 @@ For example: [6, 9, 15, -2, 92, 11]
 
 
 //}
+
+//number of elements in the sequence
+fun numeroElementosLista(listaInteiros: ArrayList<Int>): Int {
+    var nElementos = 0
+    for (valor in listaInteiros) {
+        nElementos++
+    }
+    return nElementos
+}
+
+//average value
 fun mediaValores(listaInteiros: ArrayList<Int>): Double {
-    var soma: Double = 0.0
+    var soma = 0.0
     for (valor in listaInteiros) {
         soma += valor
     }
-    val media: Double = soma / listaInteiros.count()
-    return media
+    return soma / numeroElementosLista(listaInteiros)
 }
 
+//minimum value
 fun achaMenorValor(listaInteiros: ArrayList<Int>): Int {
-    var minValor: Int = listaInteiros[0]
+    var minValor = listaInteiros[0]
     for (valor in listaInteiros){
         if (valor < minValor) {
             minValor = valor
@@ -39,8 +50,9 @@ fun achaMenorValor(listaInteiros: ArrayList<Int>): Int {
     return minValor
 }
 
+//maximum value
 fun achaMaiorValor(listaInteiros: ArrayList<Int>): Int{
-    var maxValor: Int = listaInteiros[0]
+    var maxValor = listaInteiros[0]
     for (valor in listaInteiros){
         if (valor > maxValor) {
             maxValor = valor
@@ -53,16 +65,16 @@ fun main(){
 
     val numeros = arrayListOf(6,9,15,-2,92,11)
 
-    val tamanho = numeros.count()
+    val tamanho = numeroElementosLista(numeros)
     val min = achaMenorValor(numeros)
     val max = achaMaiorValor(numeros)
     val media = mediaValores(numeros)
 
-    println("numeros ${numeros}")
+    println("numeros $numeros")
 
     println("O tamanho da lista é de $tamanho elementos")
     println("O menor valor da lista é: $min.")
     println("O maior valor da lista é: $max.")
-    println("A media dos valores da lista é: $media.")
+    println("A média dos valores da lista é: $media.")
 
 }
