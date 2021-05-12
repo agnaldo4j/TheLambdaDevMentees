@@ -22,7 +22,14 @@ For example: [6, 9, 15, -2, 92, 11]
 //}
 
 //number of elements in the sequence
+
+
+fun verificarVazio(listaInteiros: ArrayList<Int>) {
+    if (listaInteiros.isEmpty()) throw IllegalArgumentException("Insira uma lista com elementos")
+}
+
 fun numeroElementosLista(listaInteiros: ArrayList<Int>): Int {
+    verificarVazio(listaInteiros)
     var nElementos = 0
     for (valor in listaInteiros) {
         nElementos++
@@ -32,6 +39,7 @@ fun numeroElementosLista(listaInteiros: ArrayList<Int>): Int {
 
 //average value
 fun mediaValores(listaInteiros: ArrayList<Int>): Double {
+    verificarVazio(listaInteiros)
     var soma = 0.0
     for (valor in listaInteiros) {
         soma += valor
@@ -41,6 +49,7 @@ fun mediaValores(listaInteiros: ArrayList<Int>): Double {
 
 //minimum value
 fun achaMenorValor(listaInteiros: ArrayList<Int>): Int {
+    verificarVazio(listaInteiros)
     var minValor = listaInteiros[0]
     for (valor in listaInteiros){
         if (valor < minValor) {
@@ -52,6 +61,7 @@ fun achaMenorValor(listaInteiros: ArrayList<Int>): Int {
 
 //maximum value
 fun achaMaiorValor(listaInteiros: ArrayList<Int>): Int{
+    verificarVazio(listaInteiros)
     var maxValor = listaInteiros[0]
     for (valor in listaInteiros){
         if (valor > maxValor) {
@@ -63,9 +73,9 @@ fun achaMaiorValor(listaInteiros: ArrayList<Int>): Int{
 
 fun main(){
 
-    val numeros = arrayListOf(6,9,15,-2,92,11)
-
-    val tamanho = numeroElementosLista(numeros)
+    //val numeros = arrayListOf(6,9,15,-2,92,11)
+    val numeros = arrayListOf<Int>()
+    val tamanho: Int = numeroElementosLista(numeros)
     val min = achaMenorValor(numeros)
     val max = achaMaiorValor(numeros)
     val media = mediaValores(numeros)
