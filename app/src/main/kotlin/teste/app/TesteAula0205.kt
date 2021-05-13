@@ -23,66 +23,44 @@ For example: [6, 9, 15, -2, 92, 11]
 
 //number of elements in the sequence
 
+data class Estatisticas(val minValor: Int, val maxValor: Int, val media: Double )
 
 fun verificarVazio(listaInteiros: ArrayList<Int>) {
     if (listaInteiros.isEmpty()) throw IllegalArgumentException("Insira uma lista com elementos")
 }
 
-fun numeroElementosLista(listaInteiros: ArrayList<Int>): Int {
+fun getEstatisticas(listaInteiros: ArrayList<Int>): Estatisticas{
     verificarVazio(listaInteiros)
-    var nElementos = 0
-    for (valor in listaInteiros) {
-        nElementos++
-    }
-    return nElementos
-}
 
-//average value
-fun mediaValores(listaInteiros: ArrayList<Int>): Double {
-    verificarVazio(listaInteiros)
     var soma = 0.0
-    for (valor in listaInteiros) {
-        soma += valor
-    }
-    return soma / numeroElementosLista(listaInteiros)
-}
-
-//minimum value
-fun achaMenorValor(listaInteiros: ArrayList<Int>): Int {
-    verificarVazio(listaInteiros)
+    var media = 0.0
     var minValor = listaInteiros[0]
-    for (valor in listaInteiros){
+    var maxValor = listaInteiros[0]
+
+    for (valor in listaInteiros) {
+         soma += valor
         if (valor < minValor) {
             minValor = valor
         }
-    }
-    return minValor
-}
-
-//maximum value
-fun achaMaiorValor(listaInteiros: ArrayList<Int>): Int{
-    verificarVazio(listaInteiros)
-    var maxValor = listaInteiros[0]
-    for (valor in listaInteiros){
         if (valor > maxValor) {
             maxValor = valor
         }
     }
-    return maxValor
+    media = soma / listaInteiros.count()
+    return Estatisticas(minValor, maxValor, media)
 }
 
 fun main(){
 
-    //val numeros = arrayListOf(6,9,15,-2,92,11)
-    val numeros = arrayListOf<Int>()
-    val tamanho: Int = numeroElementosLista(numeros)
-    val min = achaMenorValor(numeros)
-    val max = achaMaiorValor(numeros)
-    val media = mediaValores(numeros)
+    val numeros = arrayListOf(6,9,15,-2,92,11)
+
+    val (min: Int, max: Int, media: Double) = getEstatisticas(numeros)
+
+
 
     println("numeros $numeros")
 
-    println("O tamanho da lista é de $tamanho elementos")
+    println("O tamanho da lista é de ${numeros.count()} elementos")
     println("O menor valor da lista é: $min.")
     println("O maior valor da lista é: $max.")
     println("A média dos valores da lista é: $media.")
