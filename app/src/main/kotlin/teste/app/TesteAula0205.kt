@@ -29,25 +29,39 @@ fun verificarVazio(listaInteiros: ArrayList<Int>) {
     if (listaInteiros.isEmpty()) throw IllegalArgumentException("Insira uma lista com elementos")
 }
 
-fun getEstatisticas(listaInteiros: ArrayList<Int>): Estatisticas{
+//fun factorial(n: Long, accum: Long = 1): Long {
+//    val soFar = n * accum
+//    return if (n <= 1) {
+//        soFar
+//    } else {
+//        factorial(n - 1, soFar)
+//    }
+//}
+
+
+
+tailrec fun getEstatisticas(listaInteiros: ArrayList<Int>, indice: Int = 0, soma: Double = 0.0, estatisticas: Estatisticas = Estatisticas(listaInteiros[0], listaInteiros[0], 0.0)): Estatisticas{
     verificarVazio(listaInteiros)
 
-    var soma = 0.0
-    var media = 0.0
-    var minValor = listaInteiros[0]
-    var maxValor = listaInteiros[0]
-
-    for (valor in listaInteiros) {
-         soma += valor
-        if (valor < minValor) {
-            minValor = valor
-        }
-        if (valor > maxValor) {
-            maxValor = valor
-        }
+    return if(indice <= listaInteiros.count()) {
+        estatisticas.copy(media = soma/listaInteiros.count())
+    } else {
+        val newSoma = soma + listaInteiros[indice]
+        //TODO: revisar
+        getEstatisticas(listaInteiros, indice+1, newSoma, estatisticas)
     }
-    media = soma / listaInteiros.count()
-    return Estatisticas(minValor, maxValor, media)
+
+//    for (valor in listaInteiros) {
+//         soma += valor
+//        if (valor < minValor) {
+//            minValor = valor
+//        }
+//        if (valor > maxValor) {
+//            maxValor = valor
+//        }
+//    }
+//    media = soma / listaInteiros.count()
+//    return Estatisticas(minValor, maxValor, media)
 }
 
 fun main(){
