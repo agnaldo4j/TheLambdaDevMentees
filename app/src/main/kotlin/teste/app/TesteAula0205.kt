@@ -23,46 +23,66 @@ For example: [6, 9, 15, -2, 92, 11]
 
 //number of elements in the sequence
 
-data class Estatisticas(val minValor: Int, val maxValor: Int, val media: Double )
+data class Estatisticas(val minValor: Int, val maxValor: Int, val mediaTotal: Double = 0.0, val mediaParcial: Double = 0.0) {
+
+    fun encontraMenorValor(valor: Int) = if (valor < minValor) valor else minValor
+    fun encontraMaiorValor(valor: Int) = if (valor > maxValor) valor else maxValor
+
+    companion object {
+        fun estadoInicial(listaInteiros: ArrayList<Int>) = Estatisticas(minValor = listaInteiros[0], maxValor = listaInteiros[0])
+    }
+}
+
+data class EstatisticaState(val listaInteiros: ArrayList<Int>,
+                            val indice: Int = 0,
+                            val soma: Double = 0.0,
+                            val estatisticas: Estatisticas = Estatisticas.estadoInicial(listaInteiros)) {
+    fun eUltimaIteracao() = indice == listaInteiros.count()
+
+    fun calculaEstadoFinal() = estatisticas.copy(
+            mediaTotal = soma / listaInteiros.count(),
+            mediaParcial = soma / indice
+    )
+
+    fun calculaEstadoIntermediario(): EstatisticaState {
+
+        val valor = listaInteiros[indice]
+        val newSoma = soma + valor
+        val proximoIndice = indice + 1
+
+        return this.copy(
+                indice = proximoIndice,
+                soma = newSoma,
+                estatisticas = estatisticas.copy(
+                        minValor = estatisticas.encontraMenorValor(valor),
+                        maxValor = estatisticas.encontraMaiorValor(valor),
+                        mediaTotal = newSoma / listaInteiros.count(),
+                        maxParcial = newSoma / proximoIndice
+                )
+        )
+    }
+}
 
 fun verificarVazio(listaInteiros: ArrayList<Int>) {
     if (listaInteiros.isEmpty()) throw IllegalArgumentException("Insira uma lista com elementos")
 }
 
-fun getEstatisticas(listaInteiros: ArrayList<Int>): Estatisticas{
+tailrec fun getEstatisticas(estatisticaState: EstatisticaState): Estatisticas {
     verificarVazio(listaInteiros)
-
-    var soma = 0.0
-    var media = 0.0
-    var minValor = listaInteiros[0]
-    var maxValor = listaInteiros[0]
-
-    for (valor in listaInteiros) {
-         soma += valor
-        if (valor < minValor) {
-            minValor = valor
-        }
-        if (valor > maxValor) {
-            maxValor = valor
-        }
-    }
-    media = soma / listaInteiros.count()
-    return Estatisticas(minValor, maxValor, media)
+    return if (estatisticaState.eUltimaIteracao()) estatisticaState.calculaEstadoFinal()
+    else getEstatisticas(estatisticaState.calculaEstadoIntermediario())
 }
 
-fun main(){
+fun main() {
 
-    val numeros = arrayListOf(6,9,15,-2,92,11)
-
-    val (min: Int, max: Int, media: Double) = getEstatisticas(numeros)
-
-
+    val numeros = arrayListOf(6, 9, 15, -2, 92, 11)
+    val (min: Int, max: Int, mediaTotal: Double, mediaParcial: Double) = getEstatisticas(numeros)
 
     println("numeros $numeros")
-
     println("O tamanho da lista é de ${numeros.count()} elementos")
     println("O menor valor da lista é: $min.")
     println("O maior valor da lista é: $max.")
-    println("A média dos valores da lista é: $media.")
+    println("A média dos valores da lista é: $mediaTotal.")
+    println("A média parcial dos valores da lista é: $mediaParcial.")
 
 }
