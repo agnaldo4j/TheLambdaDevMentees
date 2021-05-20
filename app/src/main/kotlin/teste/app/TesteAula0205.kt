@@ -37,6 +37,11 @@ data class EstatisticaState(val listaInteiros: ArrayList<Int>,
                             val indice: Int = 0,
                             val soma: Double = 0.0,
                             val estatisticas: Estatisticas = Estatisticas.estadoInicial(listaInteiros)) {
+    init {
+        if (listaInteiros.isEmpty()) throw IllegalArgumentException("Insira uma lista com elementos")
+    }
+
+
     fun eUltimaIteracao() = indice == listaInteiros.count()
 
     fun calculaEstadoFinal() = estatisticas.copy(
@@ -57,18 +62,15 @@ data class EstatisticaState(val listaInteiros: ArrayList<Int>,
                         minValor = estatisticas.encontraMenorValor(valor),
                         maxValor = estatisticas.encontraMaiorValor(valor),
                         mediaTotal = newSoma / listaInteiros.count(),
-                        maxParcial = newSoma / proximoIndice
+                        mediaParcial = newSoma / proximoIndice
                 )
         )
     }
 }
 
-fun verificarVazio(listaInteiros: ArrayList<Int>) {
-    if (listaInteiros.isEmpty()) throw IllegalArgumentException("Insira uma lista com elementos")
-}
+
 
 tailrec fun getEstatisticas(estatisticaState: EstatisticaState): Estatisticas {
-    verificarVazio(listaInteiros)
     return if (estatisticaState.eUltimaIteracao()) estatisticaState.calculaEstadoFinal()
     else getEstatisticas(estatisticaState.calculaEstadoIntermediario())
 }
@@ -76,7 +78,7 @@ tailrec fun getEstatisticas(estatisticaState: EstatisticaState): Estatisticas {
 fun main() {
 
     val numeros = arrayListOf(6, 9, 15, -2, 92, 11)
-    val (min: Int, max: Int, mediaTotal: Double, mediaParcial: Double) = getEstatisticas(numeros)
+    val (min: Int, max: Int, mediaTotal: Double, mediaParcial: Double) = getEstatisticas(EstatisticaState(numeros))
 
     println("numeros $numeros")
     println("O tamanho da lista é de ${numeros.count()} elementos")
